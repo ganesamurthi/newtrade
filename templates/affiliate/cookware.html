@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+{% extends "affiliate/base.html"%}
+  {% block body_block %}
+    {% load static %}
+        <!-- Header-->
+    <header class="bg-secondary py-5">
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="text-center text-black">
+                <h1 class="display-4 fw-bolder">Indian Traditional Cookware</h1>
+                <p class="lead fw-normal text-white-50 mb-0">Shop for the best Indian Traditional Cookwares</p>
+            </div>
+        </div>
+    </header>
+    <!-- Section-->
+    <section class="py-5">
+        <div class="container px-4 px-lg-5 mt-5">
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-2 row-cols-xl-5 justify-content-center">
+              {% if cookwares %}
+                {% for cookware in cookwares %}
+                  <div class="col mb-5">
+                      <div class="p-3 card h-100">
+                          <!-- Sale badge-->
+                          <!-- <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div> -->
+                          <!-- <div class="embed-responsive embed-responsive-16by9 z-depth-1"> -->
+                          <!-- Product image-->
+                          <a href="{{ cookware.Image|safe }}" />
+                          <!-- <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." /> -->
+                          <!-- Product details-->
+                          <div class="card-body p-4">
+                              <div class="text-center">
+                                  <!-- Product name-->
+                                  <h5 class="fw-bolder">{{ cookware.prod_title }}</h5>
+                                  <!-- Product price-->
+                                  &#8377 {{ cookware.Price }}
+                              </div>
+                          </div>
+                          <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                              <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{{ cookware.Url }}">Shop here</a></div>
+                          </div>
+                      </div>
+                  </div>
+                {% endfor %}
+
+
+              {% else %}
+              <h1>No products found!!</h1>
+              {% endif %}
+            </div>
+
+            
+          <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+              <!-- Previous button action -->
+            {% if cookwares.has_previous %}
+              <li class="page-item"><a class="page-link" href="?page={{ cookwares.previous_page_number }}">Previous</a></li>
+            {% else %}
+              <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a></li>
+            {% endif %}
+
+                    <!-- Clickable page numbers -->
+            {% if cookwares.number == 1 %}
+              <li class="page-item active" aria-current="page">
+                <span class="page-link">{{ cookwares.number }}</span>
+              </li>
+              <li class="page-item"><a class="page-link" href="?page={{ cookwares.next_page_number }}">{{ cookwares.next_page_number }}</a></li>
+            {% elif cookwares.number == cookwares.paginator.num_pages %}
+              <li class="page-item"><a class="page-link" href="?page={{ cookwares.previous_page_number }}">{{ cookwares.previous_page_number}}</a></li>
+              <li class="page-item active" aria-current="page">
+                <span class="page-link">{{ cookwares.paginator.num_pages }}</span></li>
+            {% else %}
+              <li class="page-item"><a class="page-link" href="?page={{ cookwares.previous_page_number }}">{{ cookwares.previous_page_number}}</a></li>
+              <li class="page-item active" aria-current="page">
+                <span class="page-link">{{ cookwares.number }}</span>
+              </li>
+              <li class="page-item"><a class="page-link" href="?page={{ cookwares.next_page_number }}">{{ cookwares.next_page_number }}</a></li>
+            {% endif %}
+
+            <!-- Next button action -->
+            {% if cookwares.has_next %}
+                  <li class="page-item"><a class="page-link" href="?page={{ cookwares.next_page_number }}">Next</a></li>
+            {% else %}
+                  <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Next</a></li>
+            {% endif %}
+              </ul>
+            </nav>
+        </div>
+    </section>
+  {% endblock %}
